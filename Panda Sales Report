@@ -1,0 +1,61 @@
+import os
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as md
+import numpy as np
+import datetime as dt
+import time
+
+df = pd.read_csv('C:/Users/saura/anaconda3/MySalesAnalysisProject/SalesData/MySalesData.csv')
+print(df.head())
+
+print(df['Order Date'])
+
+df['dtime']=pd.to_datetime(df['Order Date'])
+
+df['Year']=df['dtime'].dt.strftime('%Y')
+
+print(df['Year'])
+
+df.tail()
+
+df['AllSales']=pd.to_numeric(df['Total Price'], errors='coerce')
+
+
+df.groupby('Year')['AllSales'].sum()
+
+df_trend = df.groupby('Year').sum()['AllSales'].reset_index()
+#df = sdata.groupby["AllSales"]
+
+plt.plot(df_trend['Year'],df_trend['AllSales'])
+#plt.show()
+
+df.head()
+
+prod_sales = pd.DataFrame(df.groupby('Product').sum()['AllSales'])
+
+prod_sales.sort_values('AllSales',ascending=False)
+
+#Top 10 product
+prod_sales[:10].sort_values('AllSales',ascending=False)
+
+most_sell_prod = pd.DataFrame(df.groupby('Product').sum()['Quantity Ordered'])
+
+top_10_products=most_sell_prod.sort_values('Quantity Ordered',ascending=False)
+
+top_10_products[:10]
+
+
+df['TotalCost']=df['Quantity Ordered']*df['Cost']
+
+df.head()
+
+df['Profit']=df['Total Price']-df['TotalCost']
+df.head()
+
+Total_Profit = pd.DataFrame(df.groupby('Product').sum()['Profit']) 
+
+Total_Profit=Total_Profit.sort_values('Profit',ascending=False)
+
+Total_Profit[:10]
+
