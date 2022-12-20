@@ -29,7 +29,7 @@ import time
 # In[20]:
 
 
-df = pd.read_csv('C:/Users/saura/anaconda3/MySalesAnalysisProject/SalesData/MySalesData.csv')
+df = pd.read_csv('MySalesData.csv')
 print(df.head())
 
 
